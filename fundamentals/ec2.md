@@ -6,6 +6,7 @@
   - [Life cycle](#life-cycle)
   - [Amazon Machine Image](#amazon-machine-image)
   - [Connect to EC2](#connect-to-ec2)
+  - [EC2 creation](#ec2-creation)
 
 ## Basics
 
@@ -34,3 +35,12 @@
 
 - Linux - 22, Windows RDP - 3389
 - Authenticate using SSH key
+
+## EC2 creation
+
+1. Go to EC2
+2. Create a ssh key pair to access EC2 instance
+3. Create a new instance
+4. Select any Amazon AMI / free tier instance types / select key pair instance
+5. Network settings/Security Group, leave them to default
+6. Create the instance
