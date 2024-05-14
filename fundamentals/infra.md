@@ -31,3 +31,4 @@
 - Globally resilient - iam
 - Region resilient - seperate service in each region
 - AZ resilient - services runnning from single AZ
+
