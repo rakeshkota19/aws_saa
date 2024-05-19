@@ -15,6 +15,10 @@
 - Metrics - AWS products / Apps
 - Cloud watch logs - Aws prods / apps
 - Cloud watch events - AWS services & Schedules - generate events to consume them
+- Public service .. usable for AWS or on-premises
+- Store/Monitor/Access logging data
+- AWS integrations - EC2/VPC flow logs/Lambda/Cloud Trail, R53
+- Use unified cloud watch agent to integrate custom logs into Cloud watch
 
 ## Namespace
 - Container for grouping
