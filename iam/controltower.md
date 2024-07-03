@@ -5,6 +5,8 @@
 - [Control Tower](#control-tower)
   - [Basics](#basics)
   - [Control tower](#control-tower-1)
+  - [Guard rails](#guard-rails)
+  - [Account Factory](#account-factory)
 
 ## Basics
 
@@ -33,3 +35,14 @@
   - Cloud formation is used to automate
 - SCP's are used in Guard Rails
 
+## Guard rails
+- rules
+- Mandatory, strongly recommended or elective
+- Preventive
+- Detective - Compliance checks
+
+## Account Factory
+- Automated Account provisioning
+- guardrails, automatically added
+- accounts can be closed or repurposed
+- can be fully integrared with business SDLC.
