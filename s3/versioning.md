@@ -5,6 +5,7 @@
   - [Versioning](#versioning-1)
   - [Disadvantages](#disadvantages)
   - [MFA delete](#mfa-delete)
+  - [demo](#demo)
 
 ## Versioning
 
@@ -33,3 +34,13 @@
 - MFA is required to change bucket versioning state
 - MFA is required to delete versions
 - Serial number (MFA) + code passed with API calls to interact versioning
+
+
+## demo
+
+- create bucket, enable versioning
+- enable static hosting, update bukcet policy, add index and image
+- toggle versions to see all versions
+- delete any image without delete toggle version, will only add a delete marker to the top and hides all the previous versions
+- to permenanently delete, toggle version and click on the object and delete it.
+- delete delete markers to undo the delete 
