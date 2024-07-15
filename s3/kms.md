@@ -5,6 +5,7 @@
   - [KMS Keys](#kms-keys)
   - [DEK - Data encryption keys](#dek---data-encryption-keys)
   - [Security](#security)
+  - [Demo](#demo)
 
 
 ## Intro
@@ -42,5 +43,13 @@
 - Key policy (similar to resource)
 - Every key has policy
 - Keys should have the prinipal to trust the account
-- 
+  
 
+## Demo
+- KMS -> Customer manged - create key
+- Define administrative permissions - used to manage key
+- Define key usage permissions - used to define who can use key
+- Create policy
+- Key rotation can be enabled, by default not enabled
+- Keys are rotated generally once every year
+- 
