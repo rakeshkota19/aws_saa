@@ -26,7 +26,7 @@
 - File storage
   - presented as a file share, has strucutre, mountable, not bootable
   - ready made file system, already have structure
-
+  - accessed by multiple instances simultaneously.
 - Object storage - colleciton of objects, flat. (Not mountable, Not bootable)
   - Super scalable 
 
@@ -37,10 +37,11 @@
   - size of blocks writing to disk
   - 16KB .. 64 KB .. 1 MB  
 - IOPS
-  - revolutions of the car
+  - revolutions of the car / speed of car
   - no of io opeations per second 
   - can be affected by network drives, hardware technology
 - Throughput
   - speed of the car
   - t = io * iops
   - increase io/iops can increase the throughput
+  - expressed in mb/s
