@@ -18,12 +18,11 @@
 - EC2 create file system on top of this block system
 - Storage is provisioned in one AZ ( zone resilient in that AZ)
 - detached and reattached to instance, not linked to one host
-- Snapshot can be taken.. Globslly resilient, migrate between AZ's/regions
+- Snapshot can be taken.. Globally resilient, migrate between AZ's/regions
 - Billed on GB-month
 - No cross communication between cross region instance and storage
 
 ## Volume types
-
 
 ## SSD based
 
@@ -31,28 +30,39 @@
   - first iteration
   - General Purpose SSD
   - volume can be b/w 1GB .. 16 TB
-  - io has 5.4 million IO credits 
+  - io has capacity 5.4 million IO credits 
     - ( beyond the 100 io credits, fills at 3 IO credits per second per GB .. Baseline)
     - bucket fills woth min 100 IO credits per second, regardless of volume
-    - 3,000 iops burst
+    - max 3,000 iops burst can be acheived
     - all volumes get initial 5.4 million IO credits. 30 minutes @ 3,000 iops
     - IO credit - 16 KB
+    - 1 input/output uses 1 IO credit
     - heavy work - heavy credit usage
     - > 1 TB, baseline is above burst
   - great for boot volumes, low-latency interactive apps, dev/test
+  - max 16,000 iops 
+  - max 250 MB/s
 - GP3
   - SSD
-  - Every volume min 3000 IOPS and 125 MiB/s
+  - removes credit bucket architecture
+  - Every volume starts with 3000 IOPS and 125 MiB/s
   - extra cost for < 16000 IOPS / 1,000 MiB/s
+  - block size - 64 KB
+  - volume can be b/w 1GB .. 16 TB
   - cheaper and faster than GP2
+  - higher throughput than gp2
+
 - Provisioned IOPS SSD
   - io1/io2/block express
-  - iops can be adjusted independently of size
+  - 64,000(io1/io2)/256,000 (block exp) 
+  - max 1,000 MB/s (io) and 4,000 Mb/s (block exp) 
+  - volume can be b/w 4GB .. 15 TB ( Block express - 64TB)
+  - iops can be adjusted independently of size - however i.e limit of 50/500/1000 IOPS/GB (Io1/Io2/block)
   - consistenct low latency and jitter
-  - per instance performace
+  - per instance performace (using multiple volumes)
     - io1 - 260,000 IOPS & 7,500 Mb/s
     - io2 - 160,000 IOPS & 4,750 Mb/s
-    - io2 Block express - 160,000 IOPS & 4,750 Mb/s
+    - io2 Block express -  260,000 IOPS & 7,500 Mb/s
   - used when you have smaller volumes and need higher performace
 
 
@@ -64,12 +74,12 @@
     - suited for sequential writing data
     - cheap
     - max 500 IOPS (block - 1MB)
-      - baseline performace - 40MB/s/TB Base , Burst - 1250 MB/s/TB
+      - baseline performace - 40MB/s/TB Base , Burst - 250 MB/s/TB
     - 125 GB - 16TB
     - used for big data, data warehosuing, log processing
   - sc1 
     -  cold hdd
-    -  in-frequent data
+    -  in-frequently used data
     -  max 250 IOPS (block - 1MB)
     -  credit pool archy -
        - baseline - 12 MB/s/TB
