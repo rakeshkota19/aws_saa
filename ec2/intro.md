@@ -34,12 +34,13 @@
 - AZ - resilient
   - Instance store - temporary storage is for each az
   - Storage
-  - Data network
-  - EBS (also runs inside AZ)
+  - Data network - same AZ
+  - EBS (also runs inside same AZ)
+  - Volumes also runs inside same AZ
 - Instances stay on host unless
   - if host fails or taken down by aws for maintenance
-  - stopped and started host
-  - it may move into another host in the same zone
+  - stopped and started host  (different from restart)
+  - it may move into another host in the same AZ
 - We cannot never connect ec2 and storage(ebs) from different zones.
 - Host generally have instances of same types
 - Ec'2 good for
@@ -54,19 +55,21 @@
 
 - Instance types affects raw cpu, memory, local storage, type, resource ratios, network bandwidth, architecture, vendor
 - 5 main categories
-  - General purpose : default, diverse workloads, equal resources ratio
-  - Compute optimised: HPC, ML, Media processing 
-  - Memory Optimised: large in memory workloads, processing large data sets
-  - Accelerated Computing: GPU, FPGA's
+  - General purpose : default, steady/diverse workloads, equal resources ratio
+  - Compute optimised: HPC, ML, Media processing - More CPU's
+  - Memory Optimised: large in memory workloads, processing large data sets - large memory
+  - Accelerated Computing: GPU, FPGA's 
   - Storage optimised: large amount of local storage - massive i/o operations - data warehousing/analytics
-- R5dn.8xlarge
+- R5dn.8xlarge - Instance type
   - First (R) - Instance family
   - Second - Generation ( always select the latest generation)
   - dn - collection of letters - additional capabilities 
   - 8xlarge - Instance size
 
+![Screenshot 2024-08-23 093426](https://github.com/user-attachments/assets/d0bfca7c-ed16-42a3-b7b3-9a30367c3158)
 
 ## Connect
 
 - EC2 SSH vs EC2 instance connect
 - Ec2 instace connect uses AWS IP's to SSH into the ec2 instance
+
