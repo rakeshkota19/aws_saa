@@ -109,3 +109,28 @@
  - no authenticated and not encrypted 
  - DEMO Commands [Link](https://learn-cantrill-labs.s3.amazonaws.com/awscoursedemos/0009-aws-associate-ec2-instance-metadata/lesson_commands.txt)
  - We can also use ec2-metadata package to get data
+
+ ## Ec2 bootstrapping user data
+
+- Bootstrap - running scripts at launch time
+- Only runs these script at launch time
+- will be accessed by 169.254/latest/user-data
+- launch time to service time
+- ec2 does not check the scripts it directly runs the script in the instance
+- bootstrapping reduces the service time, by pre-running the script after launch time
+- another way of reducing the service time, ami baking can be done (custom ami)
+- demo of launching ecc2 with the user script in user data field
+- logs can be found at /var/log/cloud-init*.log
+- we can also provide this user data using cloud formation (base 64)
+- cfn:init - desired script (simple configuration management script)
+    - can manage any package/sources/files/commands/services
+    - provided in directives in meta-data
+    - can run multiple times when the meta-data is updated
+- cfn:signal -
+    - creation signal - create and supply a timeout value
+    - instead of moving the instance to create complete status, it waits for the signal from the resource itself till it runs the user scripts(desired state)
+- Creation policies create a 'WAIT STATE' on resources .. not allowing the resource to move to CREATE_COMPLETE until signalled using the cfn-signal tool.
+
+
+
+
