@@ -1,6 +1,4 @@
 
-
-
 # Misc
 
 ## Network / DNS Archy
@@ -130,6 +128,79 @@
     - creation signal - create and supply a timeout value
     - instead of moving the instance to create complete status, it waits for the signal from the resource itself till it runs the user scripts(desired state)
 - Creation policies create a 'WAIT STATE' on resources .. not allowing the resource to move to CREATE_COMPLETE until signalled using the cfn-signal tool.
+
+## EC2 instance roles
+
+- Iam role allows ec2 service to assume role and get temporary creds
+- Instance profile wrapper above iamrole
+- Instance profile is attached to the EC2 instance 
+- Temporary credentials are accessed using instance meta-data
+- creds automatically renewed
+- meta-data -> iam/security-creds/role-name
+- be careful while caching the temporary creds
+- temporary creds/roles better to use than access keys/long term creds (when stored in unsecured environments)
+- Demo:
+    - For ec2 instance to access aws sdk, it needs permission
+    - one way is to provide access key (not preferred)
+    - create instance role in iam
+    - role - AWS service/EC2, policy - s3readonlyaccess
+    - in ui, when we create a role, instance profile will also be created
+    - this profile will be connected to the ec2 instance
+    - instnace - modify iam role, and update the role
+    - latest/meta-data/iam/security-credentials/rolename
+    - temporary creds are automatic renewed
+- Precedence: (order of checking the creds, 1 impling it is looked first)
+    1. Command line options
+    2. Env variables
+    3. CLI creds file 
+    4. CLI config file
+    5. Container creds
+    6. instance profile creds
+
+## SSM paramter store
+
+- Systems manager parameter store
+- used for storing creds/secrets securely
+- passing important data through ec2-user data is bad, as everyone with access to ec2 can see it
+- storage for config/secrets
+- string/stringList and secure string
+- license codes, database strings, full config and passwords
+- hierarchies and versioning
+- public parameters 
+- tightly integreated with IAM
+- demo
+ - standard - 10k params/4kb / advanced - >10k, 8kb
+ - standard free of charge
+ - securestring(for storing important data) - encrypt using kms key - default ssm key / customer managed key
+ - aws ssm get-parameters --names name - to get the param details
+ - aws ssm get-parameters-by-path --path /my-demo-app/ - to get all params by path
+ - --with-description, decrypts the encrypted as long as you have the permissions
+
+
+## System logs
+
+- application/system logs
+- cloud watch is used for managing metrics 
+- does not natively caputure data inside an instnace
+- we need a cloud watch agent to capture the data
+- cloud watch agent need to have permission to send data to cloud watch
+- agent will need some config on what to send to the cloud watch
+- it also needs a role for permission to agent
+- 1 log group for one log you want to inject
+- Demo
+    - use the stack and create the instances
+    - connect to instnace
+    - download cloud watch agent - sudo dnf install amazon-cloudwatch-agent
+    - also give permissions to interact with s3 and ssm (config file) - cloud watch filter policy/ssm full access
+    - modify role, the one which we created
+    - generate config file - sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
+    - use defaults until default metrics
+    - enter the log file paths
+    - config file - default stored at /opt/aws/cloud-watch-agent/bin/config.json
+    - use the paramter store to store this
+    - paramter store uses the role to create temporary creds
+    
+
 
 
 
