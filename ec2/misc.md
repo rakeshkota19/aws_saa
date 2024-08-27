@@ -68,7 +68,12 @@
     - no per second charge for the instnace
     - we pay for the host, so we can use all resoruces
     - it also has host affinity - hosts will be running on same host
-    - licensing based on socket/cores
+    - licensing based on physical socket/cores
+    - on demand or reserved options
+    - ex:  a1 host = 1 socket / 16 cores // r5 host - 2 socket / 48 cores
+    - Amazon RDS instances are not supported
+    - Placement groups are not suppored
+    - AMI limits - RHEL, SUSE Linux, windows ami's are not supported
 - Dedicated Instances
     - we dont pay for the host
     - AWS runs all your instances in a single instance
@@ -199,9 +204,54 @@
     - config file - default stored at /opt/aws/cloud-watch-agent/bin/config.json
     - use the paramter store to store this
     - paramter store uses the role to create temporary creds
-    
+    - create a share collectd and types.db to store the agent data
+    - start up the cloud watch agent, by providing the configuration to it
+
+## Placement groups
+
+- allows to influence placemnt of instances
+- cluster - pack instances close together 
+    - highest level of perfomance
+    - launced into single AZ 
+    - locked into the first instance AZ 
+    - same rack  sometimes same host
+    - speed between instances can be 10Bg/s, normally it is 5gb/s
+    - lowest latency and max packet per second, as there are physically near
+    - used when high performance is required
+    - trade off - less resilient, if az falls down, then your service will fail
+    - use the same type of instance (not mandatory)
+    - launch at same time (not mandatory .. recommmended)
+- spread - keep instances seperated
+    - maximum amount of availabilty to ensure resiliency
+    - seperate isolated racks in seperate zones
+    - limit up to 7 instances per AZ
+    - infrastructure isolation
+    - each rack has own network and power source
+    - not supported for dedicated instances or hosts
+- partition - group of instances spread apart
+    - similar to spread
+    - used when you have more than 7 instances in a AZ
+    - divided into partitions, max 7 per AZ (partitions are isolated from each other rank)
+    - can run any number of instance in any partition unlike spread
+    - designed for huge scale performance
+    - resiliency + performace
+    - spread + cluster benefits
+    - great for topology aware applications (HDFS/Hbase/Cassandra)
 
 
+## Enhanced Networking 
 
+- feature to improve networking
+- SR-IOV - network card is virtualisation aware (multiple logical nic)
+- without SR-IOV, there is only single interface card and host has to sit between all the instnaces and the card consuming cpu
+- SR-IOV, saves cpu time and improves performace
+- higher i/o and lower host cpu usage
+- more bandwidth
+- higher pps (packet per speed)
+- consistent lower latency
 
+<!-- ## EBS optimised 
 
+- dedicated capacity for EBS
+- enabled by default
+ -->
