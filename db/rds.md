@@ -250,4 +250,56 @@
     - unpredictable workloads
         - normal aurora provisioned will waste resoruces when load is very small
     - multi-tenant applications
+- sometimes, connectivity can take longer when it wakes from 0 state
 
+
+## Aurora global database
+
+- can operate from two or more regions (primary/secondary )
+- secondary regions can have upto 16 read replicas, can be promoted to RW if disaster happens
+- primary has 1 write and 15 read replicas
+- 1sec replication time between regions
+- cross region dr
+- global read scaling - low latency performance improvements
+- no impact on db performance, replication happens on storage level
+- currenly maximum 5 secondary regions
+
+## Aurora - Multi master
+
+- default aurora - single master (one r/w and 0+ read replicas)
+- cluster endpoint is used to write, read endpoint is used for load balanced reads
+- failover takes time - replicas need to promoted to r/w
+- multi master, all are r/w
+- when one of r/w node receives write request, it is send to all other masters
+    - waits for the quorum
+
+## Aurora - RDS proxy
+
+- opening / closing connections consume resources
+- takes time, increases latency
+- applications -> proxy connection pooling -> database
+- proxy runs from a vpc
+- connections can be resued in the proxy pool / multiplexed
+- when to use
+    - too many connection erros
+    - long running connections - low latency
+    - aws lambda .. time saved/connection
+- accessed via proxy endpoint
+- can enforce ssl/tls
+
+## Database Migration Service
+
+- runs using a replication instance
+- source/destination endpoints/database
+- one endpoint must be on AWS
+- replication instance performs migration between source and destination endpoint
+- Jobs
+    - Full load (One of migration of all data)
+    - Full load + CDC (full + changes occuring during the ongoing replication)
+    - CDC only (replicate only data changes)
+- Schema conversion tool can assist with the schema conversion
+    - used when engines aren't compatible (if they are compatible, sct would not be used)
+    - works with oltp/olap
+- Snowball
+    - larger migration (multi Tera bytes)
+    - DMS will use snowball with the help of SCT
