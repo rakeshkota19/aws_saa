@@ -1,4 +1,5 @@
 
+
 # Serverless
 
 ## Event Architecture
@@ -13,3 +14,4 @@
   - can be evolved using queues (decoupled)
   - upload tier will add to queue, the processing tiers will process the videos from queue
   - 
+
