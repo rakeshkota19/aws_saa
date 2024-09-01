@@ -22,11 +22,13 @@
 - backed by physical key material 
 - generated or imported
 - KMS keys can be operated on data upto 4 kb of data
-- isolated to a region and never leaves
-- aws owned and customer owned
-- aws managed - automatically created by customer or customer managed keys - created by customer and more configurable
-- all support rotation
+- isolated to a region and never leaves 
+- multi region keys are allowed using replicaton
+- aws owned(aws services manages and owns them) and customer owned
+- aws managed - automatically created by aws when we use aws services such as s3 or customer managed keys - created by customer and more configurable
+- all support rotation, aws managed cannot be disabled, customer owned, rotation is disabled)
 - Aliases - refer to keys
+- all previous backing keys will be stored so that previous versions can be accessed
 
 ## DEK - Data encryption keys
 
@@ -42,14 +44,12 @@
 
 - Key policy (similar to resource)
 - Every key has policy
-- Keys should have the prinipal to trust the account
-  
+- Keys should have the principal to trust the account
 
 ## Demo
 - KMS -> Customer manged - create key
-- Define administrative permissions - used to manage key
+- Define administrative permissions - used to manage key (crud)
 - Define key usage permissions - used to define who can use key
 - Create policy
 - Key rotation can be enabled, by default not enabled
 - Keys are rotated generally once every year
-- 

@@ -181,6 +181,8 @@
  - aws ssm get-parameters-by-path --path /my-demo-app/ - to get all params by path
  - --with-description, decrypts the encrypted as long as you have the permissions
 
+- Instance can assume role from IAM role, gets temporary creds
+- Instance profile
 
 ## System logs
 
@@ -238,6 +240,7 @@
     - spread + cluster benefits
     - great for topology aware applications (HDFS/Hbase/Cassandra)
 
+## Instance roles
 
 ## Enhanced Networking 
 

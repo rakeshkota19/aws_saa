@@ -26,33 +26,33 @@
 
 - 2 types
 - Cross region replication - allows replication of source bucket into buckets in different region
-- Same region replication
+- Same region replication - recently
 - Both support same account/different account
-- Replication configuratipon spec
+- Replication configuration spec
 - Role does the replication based on the config
-- In same account, iam role automically access to the both accounts, however for different accounts, destination need to add a bucket policy to allow source role to replicate objects.
+- In same account, iam role automatically has access to the both accounts, however for different accounts, destination need to add a bucket policy to allow source role to replicate objects.
 - Replication config
   - All objects or some subset
   - Which storage class - default will be the same
   - Ownership - default is the source account
-  - RTC - Replication time control - 15 min guarntee SLA
-- By default - replication is not retro active, only from that point when it is enabled then only new objects will be replicated
+  - RTC - Replication time control - 15 min guarantee SLA - optional
+- By default - replication is not retroactive, only from that point when it is enabled then only new objects will be replicated
 - For replication, versioning need to be turned on
-- One way replication
+- One way replication, by default, for bidirectional we need to enable it
 - Use batch replication to replicate older objects
 - Replication can handle all encrypted type of objects
-- Soruce bucket owner needs permssions to objets for replication to happen
+- Source bucket owner needs permissions to objets for replication to happen
 - No system events (life cycle events), no glacier or glacier deep archive are replicated
 - No deletes are replicated ( this can be added by delete marker replication)
 - Why use replication ?
   - SRR - Log Aggregation
   - SRR - Prod and test sync
-  - SRR - Resilience with strict soverignty
+  - SRR - Resilience with strict sovereignty
   - CRR - Latency reduction
   - CRR - Global Resilience improvements
 - Demo
   - Create 2 buckets in different regions
-  - enable static site hosting and versioning on both bucketes
+  - enable static site hosting and versioning on both buckets
   - create a replication rule for source to destination bucket
   - upload to source and check
   - delete the buckets and role created
@@ -60,36 +60,36 @@
 ## Pre-Signed URLS
 
 - Way of giving access to object to other persons in a safe and secured way
-- S3 bucket - private access, only people with the acess can acces it
-- Non authenicated people cannot access it
-- Without making public, we need to provide an account/creds to the user to access private account
+- S3 bucket - private access, only people with the access can access it
+- Non authenticated people cannot access it
+- Without making public, we need to provide an identity/ provide account credentials to the user to access private account or a=make it public
 - Pre signed urls comes to the rescue
-- provide expiry/acess method/bucket-name/object-name and s3 gives a pre signed url
+- provide expiry/access method/bucket-name/object-name and s3 gives a pre signed url
 - non authenticated user can use this pre-signed url and can access the object
 - time limited and encode all auth information
 - Power UPS
-  - We can create a URL for any object even if you have no acccess
+  - We can create a URL for any object even if you have no access
   - When using the URL, the permissions match the identity which generated it
-  - access denied could mean the generating ID never had access or doesnt have it now
-  - Dont generate them using IamROle. as url stops working when temporary creds expire
+  - access denied could mean the generating ID never had access or doesn't have it now
+  - Don't generate them using IamROle. as url stops working when temporary credentials expire
 - Demo
   - create bucket, upload an img
   - Create a signed url using cloud shell, cloud shell takes the identity of the logged in user
   - CMD: aws s3 presign s3://signedurldempo14588/aotm.jpg --expires-in 480 
   - CMD: aws s3 ls - list all buckets
-  - try changing the permssions of user who created pre-signed urls, now all the pre-signed url will fail on future access
-  - we can aslo generate a pre-signed url even if we don't have access to s3 or the object does not exist
+  - try changing the permissions of user who created pre-signed urls, now all the pre-signed url will fail on future access
+  - we can also generate a pre-signed url even if we don't have access to s3 or the object does not exist
   - we can also share pre-signed urls using the console
 
 ## S3 select and select glacier
 
-- used to retreive parts of objects instead of the whole object
+- used to retrieve parts of objects instead of the whole object
 - s3 can store upto 5tb (huge)
-- retrieving a 5 tb takes times, flitering at client side is waste
+- retrieving a 5 tb takes times, filtering at client side is waste
 - S3/Glacier select let us use sql-like statements
 - to select part of object, pre-filtered by s3
 - instead of filtering at application, it is done at s3
-- this saves transfter costs 
+- this saves transfer costs 
 - upto 400% faster and 80 percent cheaper
 
 ## S3 events
