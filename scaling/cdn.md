@@ -110,3 +110,49 @@
     - SSL certificate (for alternate domain, we need to add cname)
     - standard logging not real time
     - specify default root object - index.html
+
+## Security
+
+- Public Internet -> Edge locations -> regional edge cache -> source origin
+- OAI - only applicable for S3 (origin access identity)
+    - type of identity
+    - it can be associated with cloud front distributions
+    - cloudfront takes the identity of oai
+    - oai can be used in bucket policies to deny all but one or more OAI's
+    - edge locations pick up the oai identity
+    - normal people will be restricted when they try to access s3
+    - one OAI should be there for each distribution
+- Custom origins
+    - we can't use oai
+    - custom headers to upgrade to https
+    - custom origin requires custom header which will be sent by cloud front
+    - no one see the content of https
+    - in this way, the custom origins will allow the requests which have the custom header.
+    - In another way, aws gives the ip's of all aws cloud front, and we use traditional firewall to restrict other ip's
+- Public - Open access to objects
+- Private distributions
+    - requests require signed cookie or URL
+- 1 behaviour - whole distribution can be public or private
+- Old way: A cloudfront key created by root user, then account is added as a trusted signer
+- new way: trust key group added
+- Signed url's provide access to one object
+- Use url's if your client doesn't support cookies.
+- Cookies provide access to groups of objects
+- use for group's of files
+- Origin access control settings - edit distribution/create/sign the requests/update the bucket policy
+    - no one can access the s3 origin except through the cloud front
+    - cloud front is signs every requests with the distribution and the s3 checks the distribution and validates will the help of bucket policy
+
+## Lambda @Edge
+
+- allows to run lightweight lambda on the edge locations
+- only nodejs/python run time and no support of layers
+- run in aws public zone
+- viewer req -> lambda run -> origin request -> origin response -> viewer response
+- lambda - viewer side (128MB/5seconds)
+- lambda - origin side (30 seconds/ normal memory usage)
+- common use cases:
+    - A/B testing - viewer request
+    - Migration between s3 origins - origin request
+    - different objects based on device - origin request
+    - content by country - origin request
