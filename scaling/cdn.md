@@ -156,3 +156,15 @@
     - Migration between s3 origins - origin request
     - different objects based on device - origin request
     - content by country - origin request
+
+## Global accelerator
+
+- problem: 
+    - people from very far distance, latency will increase, as the number of routers will increase / more hops will be done
+- 2 * anycast ip address 
+    - multiple devices can use this ip, and can be in multipe locations
+    - 1.2.3.4 && 4.3.2.1
+- Traffic initially uses public internet and enters a global accelerator edge location
+- From the edge, data transits globally across AWS global network, less hops, significant better performace
+- moves the aws network closer to customers
+- network product (non https/tcp/udp)
