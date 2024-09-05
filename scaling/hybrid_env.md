@@ -158,3 +158,129 @@
     - notify when uploaded, event is sent to update other gateways storage when something is uploaded
     - file gateway doesn't support object locking - use read only mode on other shares or tightly control file shares
     - default is s3 standard, life cycle can move objects around
+
+
+## Snowball and Snow mobile
+
+- designed to move large amount of data in and out of aws
+- physical storage .. suitcase or truck
+- ordered from aws empty, loadup, return or order with data, empty, return
+- Snowball
+    - not instant, order and device delivered
+    - data encryption uses kms
+    - 50TB or 80 TB
+    - 1 gbps (rj45 1GBase-TX) or 10 Gbps (LR/SR) network
+    - 10 TB to 10 PB economical range (multiple devices)
+    - multiple devices to multiple premises
+    - only storage
+- Snow ball edge
+    - both storage and compute
+    - larger capacity compared to snowball
+    - 10 Gbps (rj45), 10/25 (SFP), 45/50/100 Gbps (QSFP+)
+    - 3 types
+        - storage optimised - 80TB, 24 cpu, 32Gib Ram, with ec2 - 1TB SSD
+        - computed optimised - 100 TB + 7.68 NVME, 52 vcpu, 208 Gib ram
+        - compute with gpu - with gpu
+- Snow mobile
+    - Truck, container with portable data center
+    - Ideal for single location when 10 PB+ is required
+    - Up to 100 PB per snow mobile
+    - not economical for multi site or sub 10 PB
+
+## Directory service
+
+- Managed service
+- stores objects (Users, groups, computers, server, file shares) with a structure
+- commonly used in Windows environments
+- Microsoft AD DS / Samba
+- Runs within a VPC
+- HA, deploy into multiple AZ's
+- amazon workspaces, some aws services need a directory
+- Mode
+    - Simple AD mode (Stand alone directory which uses samba 4) 
+        - 500users(small)/5000 users (large)
+        - integrates with aws services
+        - not designed to integrate with any exisiting on-premises directory system such as Microsoft AD
+    - AWS Managed Microsoft AD
+        - more features than simple AD mode
+        - can be integrated with on-premisees directory system
+    - AD connector
+        - one specific aws service has requirement of directory
+        - you already have directory in on-premise and you dont want to create new service
+        - acts as proxy
+- Pick simpe AD, simple requirements, if you need MS AD DS or need to trust AD DS, use AWS managed microsoft ADS
+
+## Data Sync
+
+- Data tranfer service to and from AWS
+- Migrations, data processing transfers, archival, dr/bc
+- designed to work at huge scale
+- keeps metadata (permissions/timestamps)
+- built in data validation
+- Scalable - 10Gbps per agent (~100 TB per day)
+- Bandwidth limiters
+- Incremental and Scheduled transfer options
+- compresion and enc
+- automatic recovery from transit errors
+- aws service integration - s3, efs
+- pay as you go - per gb data involved
+- we can configure scheduler and also customer impact can be minimised by setting a bandwidth limit
+- can be integrated to efs, s3, fsx
+- components
+    - task
+    - agent
+    - location
+
+## Fsx for windows file server
+
+- Fully managed native windows file servers/shares
+- used active directory (managed or self managed ad (on-premises))
+- designed for integration with windows environments
+- single or multi-az within a vpc
+- on-demand and scheduled backups
+- accessible using vpc, peering, vpn and direct connect
+- Native windows file system supports distributed file system, kms at rest and forced encryption in transit
+- supports volume shadow copies (file level versioning)
+- vss - user driven restores (view previous versions and restore without admin)
+- native file syste accessbile over SMB (if SMB, mostly it is FSX)
+- Windows permission model
+- supports DFS .. scale out file share structure
+- Managed, no file server admin
+- integrates with DS and your own directory
+
+## Fsx for lustre
+
+- Manged lustre - designed for HPC - Linux clients (POSIX)
+- ML, Big data, Financial Modelling
+- 100 Gb/s throughput / sub millisecond latency
+- deployment types - persistent or scratch
+- scratch - highly optimised for short term, no replication and fast
+- persistent - longer term, HA (in one AZ), self healing
+- accesssible over vpn or direct connection
+- Data can use S3 and lazy load data only when data is needed
+- for scratch - base 200 MB/s per TB storage
+- persistent offers 50Mb/s, 100Mb/s, 200Mb/s per Tb of storage
+- Burst upto 1300 MB/s per Tb (credit system)
+- lustre runs from one AZ
+- we can backup to s3
+
+## AWS transfer family
+
+- Product, managed file transfer used to transfer files to and from (s3, efs)
+- FTP - unencrypted file transfer
+- FTPS, SFTP, Applicability Statement 2 (AS2) - Structured B2B data
+- supports identity providers
+- managed file transfer workflows - serverless file workflow engine
+- multi AZ - resilient and scalable
+- Provisioned server per hour $ + data transferred $
+- FTP - VPC only (cannot be public)
+
+
+
+
+
+
+
+
+
+
